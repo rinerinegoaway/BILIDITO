@@ -1,0 +1,20 @@
+# Local development database. Production uses Supabase-managed Postgres.
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: bilidito
+      POSTGRES_PASSWORD: bilidito_dev
+      POSTGRES_DB: bilidito
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U bilidito -d bilidito']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+volumes:
+  pgdata:

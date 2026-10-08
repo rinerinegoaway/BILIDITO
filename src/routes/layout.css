@@ -1,0 +1,59 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+
+/*
+ * BILIDITO design tokens (spec §50).
+ * brand-700 = #0B3D91 (primary), accent-500 = #10B981, canvas = #F8FAFC.
+ * Contrast: white text needs brand-600+ or accent-700+ backgrounds to meet WCAG AA.
+ */
+@theme {
+	--font-sans:
+		system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+
+	--color-brand-50: #eef4fc;
+	--color-brand-100: #d9e5f7;
+	--color-brand-200: #b3cbef;
+	--color-brand-300: #7fa6e2;
+	--color-brand-400: #4a7dcf;
+	--color-brand-500: #2459b4;
+	--color-brand-600: #12479f;
+	--color-brand-700: #0b3d91;
+	--color-brand-800: #0a3275;
+	--color-brand-900: #08275b;
+	--color-brand-950: #051838;
+
+	--color-accent-50: #ecfdf5;
+	--color-accent-100: #d1fae5;
+	--color-accent-200: #a7f3d0;
+	--color-accent-300: #6ee7b7;
+	--color-accent-400: #34d399;
+	--color-accent-500: #10b981;
+	--color-accent-600: #059669;
+	--color-accent-700: #047857;
+	--color-accent-800: #065f46;
+	--color-accent-900: #064e3b;
+
+	--color-canvas: #f8fafc;
+
+	--shadow-card: 0 1px 2px 0 rgb(15 23 42 / 0.05), 0 1px 3px 0 rgb(15 23 42 / 0.06);
+}
+
+@layer base {
+	html {
+		-webkit-tap-highlight-color: transparent;
+	}
+	body {
+		@apply bg-canvas text-slate-900 antialiased;
+	}
+	:focus-visible {
+		@apply outline-2 outline-offset-2 outline-brand-500;
+	}
+}
+
+@utility container-page {
+	@apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+@utility card {
+	@apply rounded-xl border border-slate-200 bg-white shadow-card;
+}
