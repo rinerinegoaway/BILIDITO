@@ -42,8 +42,7 @@
 		<strong>Never public:</strong> your email, mobile number, barangay, password and ID documents.
 	</li>
 	<li>
-		<strong>Only the other party of an order:</strong> the meet-up place or delivery address you agree
-		on.
+		<strong>Only the other party of an order:</strong> the delivery address you agree on.
 	</li>
 	<li>
 		<strong>ID documents:</strong> only authorised BILIDITO administrators, solely to verify your identity.

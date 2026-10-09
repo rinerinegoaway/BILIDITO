@@ -1,4 +1,5 @@
 <script lang="ts">
+	import CircleAlert from '@lucide/svelte/icons/circle-alert';
 	import type { Snippet } from 'svelte';
 
 	/**
@@ -36,6 +37,8 @@
 		<p id="{id}-hint" class="text-xs text-slate-500">{hint}</p>
 	{/if}
 	{#if error}
-		<p id="{id}-error" class="text-xs font-medium text-red-600">{error}</p>
+		<p id="{id}-error" class="flex items-start gap-1 text-xs font-medium text-red-600">
+			<CircleAlert class="mt-px size-3.5 shrink-0" aria-hidden="true" />{error}
+		</p>
 	{/if}
 </div>

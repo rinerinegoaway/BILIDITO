@@ -1,24 +1,40 @@
 <script lang="ts">
-	let { compact = false }: { compact?: boolean } = $props();
+	/**
+	 * Brand logo. `mark` (default): eagle-and-cart mark + wordmark, sized for the header.
+	 * `full`: the complete logo with tagline, for hero/auth/footer use.
+	 * Assets are generated from the master file by `bun scripts/build-brand-assets.ts`.
+	 */
+	let { variant = 'mark', class: className }: { variant?: 'mark' | 'full'; class?: string } =
+		$props();
 </script>
 
-<a href="/" class="inline-flex items-center gap-2 rounded-md" aria-label="BILIDITO home">
-	<svg viewBox="0 0 32 32" class="size-8 shrink-0" aria-hidden="true">
-		<rect width="32" height="32" rx="8" fill="#0B3D91" />
-		<path
-			d="M16 6.5c-4 0-7 3-7 6.9 0 5 7 12.1 7 12.1s7-7.1 7-12.1c0-3.9-3-6.9-7-6.9Z"
-			fill="#fff"
+<a
+	href="/"
+	class={['inline-flex shrink-0 items-center gap-2 rounded-lg', className]}
+	aria-label="BILIDITO home"
+>
+	{#if variant === 'full'}
+		<img
+			src="/brand/logo-full.webp"
+			alt="BILIDITO: Buy, Sell, Near You"
+			width="720"
+			height="664"
+			class="h-auto w-full"
+			decoding="async"
 		/>
-		<path
-			d="m12.6 13.6 2.4 2.4 4.4-4.6"
-			fill="none"
-			stroke="#10B981"
-			stroke-width="2.4"
-			stroke-linecap="round"
-			stroke-linejoin="round"
+	{:else}
+		<img
+			src="/brand/logo-mark.webp"
+			alt=""
+			width="214"
+			height="160"
+			class="h-10 w-auto"
+			decoding="async"
 		/>
-	</svg>
-	{#if !compact}
-		<span class="text-lg font-extrabold tracking-tight text-brand-700">BILIDITO</span>
+		<!-- Below 360px only the mark fits next to the header icons. -->
+		<span
+			class="text-brand-gradient text-xl leading-none font-bold tracking-tight max-[359px]:sr-only"
+			>BILIDITO</span
+		>
 	{/if}
 </a>

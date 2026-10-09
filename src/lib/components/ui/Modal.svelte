@@ -25,21 +25,25 @@
 	aria-labelledby={titleId}
 	onclose={() => (open = false)}
 	onclick={(e) => e.target === dialog && (open = false)}
-	class="m-auto w-[calc(100%-2rem)] max-w-lg rounded-xl bg-white p-0 shadow-xl backdrop:bg-slate-900/50"
+	class="m-0 mt-auto w-full max-w-none rounded-t-3xl bg-white p-0 shadow-lift backdrop:bg-slate-900/50 backdrop:backdrop-blur-sm sm:m-auto sm:w-[calc(100%-2rem)] sm:max-w-lg sm:rounded-2xl"
 >
-	<div class="flex items-center justify-between border-b border-slate-200 px-4 py-3">
-		<h2 id={titleId} class="text-base font-semibold text-slate-900">{title}</h2>
+	<div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+		<h2 id={titleId} class="text-lg font-semibold text-slate-900">{title}</h2>
 		<button
 			type="button"
-			class="rounded-md p-2 text-slate-500 hover:bg-slate-100"
+			class="-mr-2 inline-flex size-10 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100"
 			onclick={() => (open = false)}
 			aria-label="Close"
 		>
 			<X class="size-5" />
 		</button>
 	</div>
-	<div class="px-4 py-4">{@render children()}</div>
+	<div class="px-5 py-5">{@render children()}</div>
 	{#if footer}
-		<div class="flex justify-end gap-2 border-t border-slate-200 px-4 py-3">{@render footer()}</div>
+		<div
+			class="flex flex-col-reverse gap-2 border-t border-slate-100 px-5 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:flex-row sm:justify-end [&_button]:w-full sm:[&_button]:w-auto [&_form]:w-full sm:[&_form]:w-auto"
+		>
+			{@render footer()}
+		</div>
 	{/if}
 </dialog>

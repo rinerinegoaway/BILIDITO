@@ -21,7 +21,8 @@
 <h2>How buying works</h2>
 <p>
 	Find an item, message the seller, then send a <em>Request to Buy</em>. Once the seller accepts,
-	you agree on a public meet-up place or a delivery option. BILIDITO does not handle payments: you
-	pay the seller directly, after you've seen the item.
+	you agree with the seller on how to ship it: a local rider, a delivery van or a courier outlet.
+	BILIDITO does not handle payments: you pay the seller directly, ideally cash on delivery after
+	you've checked the item.
 </p>
 <p>We're starting in Cagayan and will grow to more of Northern Luzon as our community grows.</p>

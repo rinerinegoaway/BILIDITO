@@ -27,7 +27,7 @@
 				href={s.href}
 				class={[
 					'rounded-lg px-3 py-2 text-sm font-medium',
-					active ? 'bg-brand-700 text-white' : 'text-slate-700 hover:bg-slate-100'
+					active ? 'bg-brand-gradient text-white shadow-sm' : 'text-slate-700 hover:bg-white'
 				]}
 				aria-current={active ? 'page' : undefined}>{s.label}</a
 			>

@@ -2,40 +2,75 @@
 @plugin '@tailwindcss/forms';
 
 /*
- * BILIDITO design tokens (spec §50).
- * brand-700 = #0B3D91 (primary), accent-500 = #10B981, canvas = #F8FAFC.
- * Contrast: white text needs brand-600+ or accent-700+ backgrounds to meet WCAG AA.
+ * BILIDITO design tokens: red-orange identity, Poppins typography.
+ *
+ *   brand   (red)     500 = #E53935 primary red
+ *   accent  (orange)  500 = #FF6B35 primary orange, 400 = #FF8C42 accent orange
+ *   success (green)   500 = #2E9D68 · warning = amber · danger = red-600 #D93025
+ *   canvas = #FFF8F5 light background · ink = slate-900 #242424 · borders = slate-200 #F0E2DC
+ *
+ * Contrast: white text on #E53935/#FF6B35 fails WCAG AA, so filled buttons use the deeper
+ * `bg-brand-gradient` (#C62828 → #D84315) and brand-700 is the link/text red. Bright 400–500
+ * shades are for icons, highlights and large display text only.
+ *
+ * The slate scale is re-tuned to warm neutrals, so every existing `slate-*` class follows the
+ * palette (slate-500 = muted text #737373, AA on white and canvas).
  */
 @theme {
 	--font-sans:
-		system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+		'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
-	--color-brand-50: #eef4fc;
-	--color-brand-100: #d9e5f7;
-	--color-brand-200: #b3cbef;
-	--color-brand-300: #7fa6e2;
-	--color-brand-400: #4a7dcf;
-	--color-brand-500: #2459b4;
-	--color-brand-600: #12479f;
-	--color-brand-700: #0b3d91;
-	--color-brand-800: #0a3275;
-	--color-brand-900: #08275b;
-	--color-brand-950: #051838;
+	--color-brand-50: #fff1ee;
+	--color-brand-100: #ffdfd9;
+	--color-brand-200: #ffc0b5;
+	--color-brand-300: #ff9a8a;
+	--color-brand-400: #f4675a;
+	--color-brand-500: #e53935;
+	--color-brand-600: #d32f2f;
+	--color-brand-700: #c62828;
+	--color-brand-800: #a61f1f;
+	--color-brand-900: #8a1c1c;
+	--color-brand-950: #4d0b0b;
 
-	--color-accent-50: #ecfdf5;
-	--color-accent-100: #d1fae5;
-	--color-accent-200: #a7f3d0;
-	--color-accent-300: #6ee7b7;
-	--color-accent-400: #34d399;
-	--color-accent-500: #10b981;
-	--color-accent-600: #059669;
-	--color-accent-700: #047857;
-	--color-accent-800: #065f46;
-	--color-accent-900: #064e3b;
+	--color-accent-50: #fff4ec;
+	--color-accent-100: #ffe6d4;
+	--color-accent-200: #ffcba6;
+	--color-accent-300: #ffab73;
+	--color-accent-400: #ff8c42;
+	--color-accent-500: #ff6b35;
+	--color-accent-600: #f4511e;
+	--color-accent-700: #d84315;
+	--color-accent-800: #bf360c;
+	--color-accent-900: #8f2a0b;
 
-	--color-canvas: #f8fafc;
+	--color-success-50: #eaf7f0;
+	--color-success-100: #cdeedc;
+	--color-success-200: #9fdcbd;
+	--color-success-500: #2e9d68;
+	--color-success-600: #24845a;
+	--color-success-700: #1e6e4b;
+	--color-success-800: #185a3e;
+	--color-success-900: #124430;
 
-	--shadow-card: 0 1px 2px 0 rgb(15 23 42 / 0.05), 0 1px 3px 0 rgb(15 23 42 / 0.06);
+	--color-red-600: #d93025;
+
+	--color-slate-50: #fff8f5;
+	--color-slate-100: #fbefea;
+	--color-slate-200: #f0e2dc;
+	--color-slate-300: #dcc8c0;
+	--color-slate-400: #a8968f;
+	--color-slate-500: #737373;
+	--color-slate-600: #5e5a58;
+	--color-slate-700: #454240;
+	--color-slate-800: #333130;
+	--color-slate-900: #242424;
+	--color-slate-950: #161515;
+
+	--color-canvas: #fff8f5;
+
+	--radius-card: 1rem;
+	--shadow-card: 0 1px 2px 0 rgb(66 32 20 / 0.04), 0 2px 8px -2px rgb(66 32 20 / 0.07);
+	--shadow-lift: 0 4px 6px -2px rgb(66 32 20 / 0.06), 0 12px 24px -6px rgb(66 32 20 / 0.12);
 }
 
 @layer base {
@@ -43,10 +78,29 @@
 		-webkit-tap-highlight-color: transparent;
 	}
 	body {
-		@apply bg-canvas text-slate-900 antialiased;
+		@apply bg-canvas text-[15px] leading-relaxed text-slate-900 antialiased sm:text-base;
+	}
+	h1,
+	h2,
+	h3 {
+		@apply leading-tight tracking-tight;
 	}
 	:focus-visible {
-		@apply outline-2 outline-offset-2 outline-brand-500;
+		@apply rounded-sm outline-2 outline-offset-2 outline-brand-500;
+	}
+	::selection {
+		@apply bg-brand-100 text-brand-900;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+			scroll-behavior: auto !important;
+		}
 	}
 }
 
@@ -55,5 +109,25 @@
 }
 
 @utility card {
-	@apply rounded-xl border border-slate-200 bg-white shadow-card;
+	@apply rounded-(--radius-card) border border-slate-200 bg-white shadow-card;
+}
+
+/* Primary call-to-action fill. Use sparingly: main buttons and small highlights. */
+@utility bg-brand-gradient {
+	background-image: linear-gradient(135deg, #c62828 0%, #d84315 100%);
+}
+
+/* Display-size highlight text only (≥24px bold); too light for body text. */
+@utility text-brand-gradient {
+	background-image: linear-gradient(90deg, #e53935 0%, #f4511e 100%);
+	background-clip: text;
+	color: transparent;
+}
+
+/* Section title + description pair used at the top of pages. */
+@utility page-title {
+	@apply text-2xl font-bold text-slate-900 sm:text-3xl;
+}
+@utility page-subtitle {
+	@apply mt-1 text-sm text-slate-500 sm:text-base;
 }

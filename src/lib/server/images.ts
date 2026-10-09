@@ -56,3 +56,16 @@ export async function normaliseDocumentPhoto(bytes: Uint8Array): Promise<Uint8Ar
 		throw new ServiceError('IMAGE_UNREADABLE', 'That photo could not be read. Try another.', 422);
 	}
 }
+
+/** Square 400px WebP profile photo (center crop). Re-encoding drops all metadata. */
+export async function normaliseAvatar(bytes: Uint8Array): Promise<Uint8Array> {
+	try {
+		return await sharp(bytes, { limitInputPixels: 50_000_000 })
+			.rotate()
+			.resize({ width: 400, height: 400, fit: 'cover', position: 'attention' })
+			.webp({ quality: 82 })
+			.toBuffer();
+	} catch {
+		throw new ServiceError('IMAGE_UNREADABLE', 'That photo could not be read. Try another.', 422);
+	}
+}

@@ -14,6 +14,17 @@ Verified, location-based buy & sell web app for Cagayan Province, PH. MVP, low b
 - Svelte 5 runes only. Form actions + `use:enhance` for mutations (remote functions are still experimental).
 - Bun for everything (`bun add`, `bun run`). Never npm.
 
+## Design system
+
+- **The red-orange identity and Poppins replace spec §50's blue/green palette** (user request, 2026-10-09).
+  Tokens live in `src/routes/layout.css`: `brand-*` = red, `accent-*` = orange, `success-*` = green,
+  and the `slate-*` scale is re-tuned to warm neutrals.
+- White text needs `bg-brand-gradient` / `brand-700+`. `#E53935` and `#FF6B35` are too light for
+  white text, so use them for icons, highlights and large display text only.
+- Reuse `#lib/components/ui/*` (Button, Input, Select, Textarea, Alert, Badge, Modal, Breadcrumbs,
+  EmptyState, Skeleton, Pagination) and `page-title`/`page-subtitle`. Don't put display classes
+  (`hidden`) on components; wrap them instead.
+
 ## Architecture rules
 
 - Business rules live in `src/lib/server/services/*` as `(actor, input)` functions that enforce

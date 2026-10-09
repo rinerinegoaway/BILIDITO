@@ -14,8 +14,8 @@
 	}: { tone?: Tone; title?: string; children?: Snippet } = $props();
 
 	const styles: Record<Tone, string> = {
-		info: 'border-brand-200 bg-brand-50 text-brand-900',
-		success: 'border-accent-200 bg-accent-50 text-accent-900',
+		info: 'border-slate-200 bg-white text-slate-800 [&_svg]:text-brand-600',
+		success: 'border-success-200 bg-success-50 text-success-900',
 		warning: 'border-amber-200 bg-amber-50 text-amber-900',
 		error: 'border-red-200 bg-red-50 text-red-900'
 	};
@@ -24,7 +24,7 @@
 </script>
 
 <div
-	class={['flex gap-3 rounded-lg border p-3 text-sm', styles[tone]]}
+	class={['flex gap-3 rounded-xl border p-3.5 text-sm leading-relaxed', styles[tone]]}
 	role={tone === 'error' ? 'alert' : 'status'}
 >
 	<Icon class="mt-0.5 size-4 shrink-0" aria-hidden="true" />

@@ -15,7 +15,8 @@
 
 <svelte:head><title>Verifications · Admin · BILIDITO</title></svelte:head>
 
-<h1 class="text-2xl font-bold text-slate-900">ID verifications</h1>
+<h1 class="page-title">ID verifications</h1>
+<p class="page-subtitle">Review government IDs so members can sell and buy.</p>
 
 <nav class="mt-4 flex gap-2" aria-label="Filter by status">
 	{#each tabs as tab (tab.value)}
@@ -40,7 +41,7 @@
 			description={data.status === 'PENDING' ? 'New ID submissions will appear here.' : undefined}
 		/>
 	{:else}
-		<table class="w-full text-left text-sm">
+		<table class="hidden w-full text-left text-sm md:table">
 			<thead class="border-b border-slate-200 bg-slate-50 text-xs text-slate-500 uppercase">
 				<tr>
 					<th class="px-4 py-3 font-semibold">User</th>
@@ -71,5 +72,27 @@
 				{/each}
 			</tbody>
 		</table>
+		<!-- Phones: one card per submission instead of a wide table. -->
+		<ul class="divide-y divide-slate-100 md:hidden">
+			{#each data.rows as row (row.id)}
+				<li>
+					<a
+						href="/admin/verifications/{row.id}"
+						class="flex items-center justify-between gap-3 px-4 py-3.5 transition hover:bg-slate-50"
+					>
+						<div class="min-w-0">
+							<p class="truncate font-medium text-slate-900">{row.name}</p>
+							<p class="truncate text-xs text-slate-500">@{row.username} · {row.municipality}</p>
+							<p class="mt-0.5 text-xs text-slate-500">
+								{row.idTypeLabel} · {timeAgo(row.createdAt)}
+							</p>
+						</div>
+						<span class="shrink-0 text-sm font-semibold text-brand-700"
+							>{row.status === 'PENDING' ? 'Review' : 'View'} →</span
+						>
+					</a>
+				</li>
+			{/each}
+		</ul>
 	{/if}
 </div>

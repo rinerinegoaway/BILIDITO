@@ -1,7 +1,9 @@
-/** Minimal viewer info the layout needs (no email or other private fields). */
+/** What the layout knows about the signed-in user. Only ever sent to that same user. */
 export interface Viewer {
 	id: string;
 	name: string;
+	/** Shown only to its owner (account menu). */
+	email: string;
 	username: string;
 	image: string | null;
 	isAdmin: boolean;

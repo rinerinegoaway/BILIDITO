@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { and, count, eq, inArray } from 'drizzle-orm';
 import * as z from 'zod';
 import type { Actor } from '#lib/domain/user.ts';
@@ -5,6 +6,9 @@ import { normalizePhMobile } from '#lib/domain/user.ts';
 import { db } from '#lib/server/db/index.ts';
 import { listings, locations, users } from '#lib/server/db/schema/index.ts';
 import { ServiceError } from '#lib/server/errors.ts';
+import { normaliseAvatar, readImageUpload } from '#lib/server/images.ts';
+import { limits } from '#lib/server/rate-limit.ts';
+import { publicStore } from '#lib/server/storage.ts';
 import { assertValidHomeLocation } from './locations.ts';
 
 /**
@@ -51,6 +55,7 @@ export async function getOwnAccount(userId: string) {
 	const [row] = await db
 		.select({
 			name: users.name,
+			image: users.image,
 			username: users.username,
 			email: users.email,
 			mobileNumber: users.mobileNumber,
@@ -82,9 +87,7 @@ export const profileUpdateSchema = z.object({
 });
 
 export async function updateOwnProfile(actor: Actor, input: z.output<typeof profileUpdateSchema>) {
-	if (actor.status !== 'ACTIVE') {
-		throw new ServiceError('RESTRICTED', 'Your account is restricted.', 403);
-	}
+	assertCanEdit(actor);
 	await assertValidHomeLocation(input.municipalityId, input.barangayId);
 	await db
 		.update(users)
@@ -95,4 +98,48 @@ export async function updateOwnProfile(actor: Actor, input: z.output<typeof prof
 			barangayId: input.barangayId
 		})
 		.where(eq(users.id, actor.id));
+}
+
+/** Public URL prefix for objects in the public bucket (served by src/routes/media). */
+export const MEDIA_PREFIX = '/media/';
+
+function assertCanEdit(actor: Actor) {
+	if (actor.status !== 'ACTIVE') {
+		throw new ServiceError('RESTRICTED', 'Your account is restricted.', 403);
+	}
+}
+
+async function deleteOwnedAvatar(userId: string, url: string | null) {
+	// Only delete files we stored for this user; never act on an arbitrary URL.
+	const prefix = `${MEDIA_PREFIX}avatars/${userId}/`;
+	if (url?.startsWith(prefix)) await publicStore.delete(url.slice(MEDIA_PREFIX.length));
+}
+
+/** Replaces the user's profile photo. Returns the new public URL. */
+export async function updateAvatar(actor: Actor, file: unknown): Promise<string> {
+	assertCanEdit(actor);
+	limits.upload.consume(`upload:${actor.id}`);
+	const avatar = await normaliseAvatar(await readImageUpload(file, 'yourself', 'avatar'));
+
+	const key = `avatars/${actor.id}/${randomUUID()}.webp`;
+	await publicStore.put(key, avatar, 'image/webp');
+	const url = MEDIA_PREFIX + key;
+
+	const [previous] = await db
+		.select({ image: users.image })
+		.from(users)
+		.where(eq(users.id, actor.id));
+	await db.update(users).set({ image: url }).where(eq(users.id, actor.id));
+	await deleteOwnedAvatar(actor.id, previous?.image ?? null);
+	return url;
+}
+
+export async function removeAvatar(actor: Actor) {
+	assertCanEdit(actor);
+	const [previous] = await db
+		.select({ image: users.image })
+		.from(users)
+		.where(eq(users.id, actor.id));
+	await db.update(users).set({ image: null }).where(eq(users.id, actor.id));
+	await deleteOwnedAvatar(actor.id, previous?.image ?? null);
 }

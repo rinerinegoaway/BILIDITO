@@ -5,7 +5,7 @@
 </script>
 
 <span
-	class="inline-flex items-center gap-1 text-xs font-semibold text-accent-700"
+	class="inline-flex items-center gap-1 text-xs font-semibold text-success-700"
 	title="This user's identity was verified by BILIDITO"
 >
 	<BadgeCheck class="size-4" aria-hidden="true" />

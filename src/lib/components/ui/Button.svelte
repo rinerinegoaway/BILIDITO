@@ -1,21 +1,24 @@
 <script lang="ts" module>
-	export type ButtonVariant = 'primary' | 'accent' | 'secondary' | 'ghost' | 'danger';
+	export type ButtonVariant = 'primary' | 'secondary' | 'soft' | 'ghost' | 'danger' | 'success';
 	export type ButtonSize = 'sm' | 'md' | 'lg';
 
 	const variants: Record<ButtonVariant, string> = {
-		primary: 'bg-brand-700 text-white hover:bg-brand-800 disabled:bg-brand-300',
-		accent: 'bg-accent-700 text-white hover:bg-accent-800 disabled:bg-accent-300',
+		// Gradient fill for the main action on a page. Use one per view where possible.
+		primary:
+			'bg-brand-gradient text-white shadow-sm shadow-brand-900/15 hover:brightness-95 hover:shadow-md active:brightness-90',
 		secondary:
-			'border border-slate-300 bg-white text-slate-800 hover:bg-slate-50 disabled:text-slate-400',
-		ghost: 'text-slate-700 hover:bg-slate-100 disabled:text-slate-400',
-		danger: 'bg-red-600 text-white hover:bg-red-700 disabled:bg-red-300'
+			'border border-slate-300 bg-white text-slate-800 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-800',
+		soft: 'bg-accent-50 text-accent-800 ring-1 ring-accent-200 ring-inset hover:bg-accent-100',
+		ghost: 'text-slate-700 hover:bg-slate-100',
+		danger: 'bg-red-600 text-white shadow-sm hover:bg-brand-800',
+		success: 'bg-success-700 text-white shadow-sm hover:bg-success-800'
 	};
 
-	// Minimum 44px touch target on md/lg (spec §51).
+	// md/lg are at least 44px tall: comfortable touch targets (spec §51).
 	const sizes: Record<ButtonSize, string> = {
-		sm: 'h-9 px-3 text-sm',
-		md: 'h-11 px-4 text-sm',
-		lg: 'h-12 px-6 text-base'
+		sm: 'h-9 rounded-lg px-3 text-sm',
+		md: 'h-11 rounded-xl px-4 text-sm',
+		lg: 'h-12 rounded-xl px-6 text-base'
 	};
 </script>
 
@@ -48,7 +51,8 @@
 	}: Props = $props();
 
 	const classes = $derived([
-		'inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-colors select-none disabled:cursor-not-allowed',
+		'inline-flex shrink-0 items-center justify-center gap-2 font-semibold whitespace-nowrap transition duration-150 select-none',
+		'active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none',
 		variants[variant],
 		sizes[size],
 		fullWidth && 'w-full',

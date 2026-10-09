@@ -19,14 +19,15 @@
 
 <h2>How do I pay?</h2>
 <p>
-	Directly to the seller, usually in cash at a meet-up or by courier COD. BILIDITO doesn't process
-	payments. Never pay before you've seen the item.
+	Directly to the seller, usually cash on delivery (COD) through the rider or courier. BILIDITO
+	doesn't process payments. Never pay before you've checked the item.
 </p>
 
 <h2>How does delivery work?</h2>
 <p>
-	After a seller accepts your request you can choose meet-up or delivery. Delivery fees shown are
-	estimates; confirm the final fee with the seller or courier.
+	After a seller accepts your request, you and the seller agree on how to ship it locally: a rider,
+	a delivery van or a courier outlet. These are independent providers, not BILIDITO. Delivery fees
+	shown are estimates; confirm the final fee with the seller or courier.
 </p>
 
 <h2>I forgot my password</h2>

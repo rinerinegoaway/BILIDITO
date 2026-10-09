@@ -21,11 +21,17 @@
 
 <h2>Be safe</h2>
 <ul>
-	<li>Meet in busy public places: malls, plazas, police-station lobbies.</li>
+	<li>
+		Ship it locally: send and receive items through local riders, delivery vans or courier outlets
+		(such as J&amp;T or LBC branches) instead of meeting strangers in person.
+	</li>
 	<li>
 		Don't share your home address in public. Share delivery details only through an accepted order.
 	</li>
-	<li>Inspect the item before you pay. BILIDITO never asks you to pay through the app.</li>
+	<li>
+		Check the item when it arrives before you pay. Cash on delivery helps. BILIDITO never asks you
+		to pay through the app.
+	</li>
 	<li>
 		Be careful with anyone who rushes you, asks for advance payment, or wants to move to another
 		app.

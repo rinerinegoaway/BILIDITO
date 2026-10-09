@@ -6,7 +6,8 @@
 
 <svelte:head><title>Admin · BILIDITO</title></svelte:head>
 
-<h1 class="text-2xl font-bold text-slate-900">Dashboard</h1>
+<h1 class="page-title">Dashboard</h1>
+<p class="page-subtitle">An overview of BILIDITO. More metrics arrive with the full admin panel.</p>
 <ul class="mt-4 grid gap-4 sm:grid-cols-3">
 	{#each data.stats as stat (stat.label)}
 		<li class="card p-5">

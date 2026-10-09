@@ -5,6 +5,7 @@
 	import Clock from '@lucide/svelte/icons/clock';
 	import Lock from '@lucide/svelte/icons/lock';
 	import { compressFormImages } from '#lib/client/compress-image.ts';
+	import { CONNECTION_ERROR, isConnectionError } from '#lib/client/forms.ts';
 	import Alert from '#lib/components/ui/Alert.svelte';
 	import Button from '#lib/components/ui/Button.svelte';
 	import Select from '#lib/components/ui/Select.svelte';
@@ -12,7 +13,14 @@
 	import type { PageProps } from './$types';
 
 	let { data, form }: PageProps = $props();
+	// Failures from the action share one loose shape; this keeps field lookups type-safe.
+	const errors = $derived(
+		((form as { errors?: Partial<Record<string, string>> } | null)?.errors ?? {}) as Partial<
+			Record<string, string>
+		>
+	);
 	let submitting = $state(false);
+	let connectionError = $state(false);
 	let frontPreview = $state<string | null>(null);
 	let backPreview = $state<string | null>(null);
 
@@ -31,11 +39,11 @@
 	<meta name="robots" content="noindex" />
 </svelte:head>
 
-<div class="container-page max-w-2xl py-8">
-	<h1 class="text-2xl font-bold text-slate-900">Verify your account</h1>
-	<p class="mt-1 text-slate-600">
+<div class="container-page max-w-2xl py-6 sm:py-8">
+	<h1 class="page-title">Verify your account</h1>
+	<p class="page-subtitle">
 		BILIDITO is a verified marketplace. Verified members get a <span
-			class="font-semibold text-accent-700">✓ Verified</span
+			class="font-semibold text-success-700">✓ Verified</span
 		> badge and can post listings and request to buy.
 	</p>
 
@@ -49,13 +57,13 @@
 
 		{#if data.status === 'VERIFIED'}
 			<div class="flex items-center gap-3 card p-5">
-				<BadgeCheck class="size-8 text-accent-700" aria-hidden="true" />
+				<BadgeCheck class="size-8 text-success-700" aria-hidden="true" />
 				<div>
 					<p class="font-semibold text-slate-900">You're verified</p>
 					<p class="text-sm text-slate-600">You can post listings and request to buy.</p>
 				</div>
 			</div>
-			<Button href="/items/create" variant="accent">Post your first listing</Button>
+			<Button href="/items/create">Post your first listing</Button>
 		{:else if data.status === 'PENDING'}
 			<div class="flex items-start gap-3 card p-5">
 				<Clock class="mt-0.5 size-6 text-amber-600" aria-hidden="true" />
@@ -75,6 +83,7 @@
 					{data.latest.rejectionReason} Please submit a new, clear photo.
 				</Alert>
 			{/if}
+			{#if connectionError}<Alert tone="error">{CONNECTION_ERROR}</Alert>{/if}
 			{#if form?.message}<Alert tone="error">{form.message}</Alert>{/if}
 
 			<form
@@ -83,9 +92,11 @@
 				class="flex flex-col gap-5 card p-5 sm:p-6"
 				use:enhance={async ({ formData }) => {
 					submitting = true;
+					connectionError = false;
 					await compressFormImages(formData, ['front', 'back']);
-					return async ({ update }) => {
-						await update({ reset: false });
+					return async ({ result, update }) => {
+						if (isConnectionError(result)) connectionError = true;
+						else await update({ reset: false });
 						submitting = false;
 					};
 				}}
@@ -108,7 +119,7 @@
 								{#if f.required}<span class="text-red-600" aria-hidden="true">*</span>{/if}
 							</label>
 							<div
-								class="flex aspect-[8/5] items-center justify-center overflow-hidden rounded-lg border border-dashed border-slate-300 bg-slate-50"
+								class="flex aspect-[8/5] items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 transition hover:border-brand-300"
 							>
 								{#if f.previewUrl}
 									<img
@@ -129,17 +140,17 @@
 								accept="image/jpeg,image/png,image/webp"
 								required={f.required}
 								class={fileInput}
-								aria-invalid={form?.errors?.[f.name] ? true : undefined}
+								aria-invalid={errors[f.name] ? true : undefined}
 								onchange={(e) => preview(e, f.set)}
 							/>
-							{#if form?.errors?.[f.name]}
-								<p class="text-xs font-medium text-red-600">{form.errors[f.name]}</p>
+							{#if errors[f.name]}
+								<p class="text-xs font-medium text-red-600" role="alert">⚠ {errors[f.name]}</p>
 							{/if}
 						</div>
 					{/each}
 				</div>
 
-				<div class="flex gap-3 rounded-lg bg-slate-50 p-3 text-xs text-slate-600">
+				<div class="flex gap-3 rounded-xl bg-slate-50 p-3.5 text-xs leading-relaxed text-slate-600">
 					<Lock class="size-4 shrink-0 text-slate-500" aria-hidden="true" />
 					<p>
 						Your ID is stored privately and is only seen by BILIDITO administrators for

@@ -20,7 +20,9 @@
 <p>
 	BILIDITO connects buyers and sellers. We do not own, inspect, sell or deliver the items listed,
 	and we do not process payments. Buyers and sellers are responsible for their own transactions,
-	including payment, meet-ups and delivery. Delivery fees shown in the app are estimates only.
+	including payment and delivery. Items are shipped through local riders, delivery vans or courier
+	outlets chosen by the buyer and seller; those providers are independent of BILIDITO, and we are
+	not responsible for their service. Delivery fees shown in the app are estimates only.
 </p>
 
 <h2>3. Your responsibilities</h2>
@@ -28,7 +30,10 @@
 	<li>List only items you own and are allowed to sell, described honestly with real photos.</li>
 	<li>Do not list prohibited items (see the Community Guidelines).</li>
 	<li>Do not harass, scam, threaten or mislead other members.</li>
-	<li>Meet in safe, public places and inspect items before paying.</li>
+	<li>
+		Ship items locally through riders, delivery vans or courier outlets, and check each item when it
+		arrives before paying (for example, cash on delivery).
+	</li>
 </ul>
 
 <h2>4. Verification</h2>
